@@ -10,11 +10,11 @@
   }
 
   .clock-time {
-    font-size: 2.8rem;
+    font-size: 3.2rem;
   }
 
   .page-title {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 
   .exam-card {
@@ -31,7 +31,7 @@
   }
 
   .subject-countdown {
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     grid-column: 2;
     grid-row: 1;
   }
@@ -44,13 +44,13 @@
   }
 
   .badge {
-    font-size: 0.65rem;
-    padding: 3px 10px;
+    font-size: 0.75rem;
+    padding: 4px 12px;
   }
 }
 
 @media (max-width: 380px) {
   .clock-time {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
   }
 }

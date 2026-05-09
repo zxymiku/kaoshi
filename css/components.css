@@ -46,24 +46,24 @@
 }
 
 .subject-row.subject-primary .subject-name {
-  font-size: 1.05rem;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 
 .subject-row.subject-primary .subject-countdown {
-  font-size: 1.3rem;
+  font-size: 1.9rem;
 }
 
 .subject-name {
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 1.3rem;
   grid-column: 1;
   grid-row: 1;
   color: var(--text-primary);
 }
 
 .subject-time {
-  font-size: 0.78rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
   grid-column: 1;
   grid-row: 2;
@@ -73,7 +73,7 @@
 
 .subject-countdown {
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   grid-column: 2;
@@ -126,9 +126,9 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 100px;
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -167,7 +167,7 @@
 }
 
 .countdown-label {
-  font-size: 0.65rem;
+  font-size: 0.88rem;
   font-family: var(--font-sans);
   color: var(--text-secondary);
   display: block;
@@ -188,13 +188,13 @@
 }
 
 .error-message h2 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-bottom: 8px;
   color: var(--text-primary);
   font-weight: 600;
 }
 
 .error-message p {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
 }
