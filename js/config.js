@@ -37,7 +37,7 @@ async function loadConfig() {
 
   const bgOverride = localStorage.getItem(STORAGE_KEYS.background);
   if (bgOverride) {
-    config.background = bgOverride;
+    config.backgrounds = [bgOverride];
   }
 
   const themeOverride = localStorage.getItem(STORAGE_KEYS.theme);
@@ -78,7 +78,26 @@ function applyTheme(config) {
 }
 
 function applyBackground(config) {
-  if (config && config.background) {
-    document.body.style.backgroundImage = `url("${config.background}")`;
+  if (!config) return;
+
+  let bgUrl = '';
+
+  if (config.backgrounds && config.backgrounds.length > 0) {
+    const idx = Math.floor(Math.random() * config.backgrounds.length);
+    bgUrl = config.backgrounds[idx];
+  } else if (config.background) {
+    bgUrl = config.background;
+  }
+
+  if (!bgUrl) return;
+
+  const bgEl = document.getElementById('bg-image');
+  if (bgEl) {
+    bgEl.style.backgroundImage = `url("${bgUrl}")`;
+    const blur = config.backgroundBlur != null ? config.backgroundBlur : 0;
+    if (blur > 0) {
+      bgEl.style.filter = `blur(${blur}px)`;
+      bgEl.style.transform = 'scale(1.1)';
+    }
   }
 }

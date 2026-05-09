@@ -1,6 +1,12 @@
 {
   "title": "2026年期末考试",
-  "background": "https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80",
+  "backgrounds": [
+    "https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80",
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80"
+  ],
+  "backgroundBlur": 6,
   "theme": "light",
   "exams": [
     {

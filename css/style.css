@@ -6,33 +6,33 @@
 
 :root {
   --bg-overlay: rgba(255, 255, 255, 0.6);
-  --bg-card: rgba(255, 255, 255, 0.82);
+  --bg-card: rgba(255, 255, 255, 0.65);
   --text-primary: #1a1a2e;
   --text-secondary: #555;
   --text-muted: #888;
   --accent: #4361ee;
-  --border: rgba(0, 0, 0, 0.08);
-  --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --progress-bg: #e5e7eb;
+  --border: rgba(255, 255, 255, 0.3);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --progress-bg: rgba(229, 231, 235, 0.7);
   --progress-fill: #4361ee;
   --status-waiting: #f59e0b;
   --status-active: #10b981;
   --status-done: #9ca3af;
-  --card-blur: 12px;
+  --card-blur: 16px;
   --radius: 16px;
   --radius-sm: 8px;
 }
 
 [data-theme="dark"] {
   --bg-overlay: rgba(10, 10, 25, 0.7);
-  --bg-card: rgba(25, 25, 50, 0.78);
+  --bg-card: rgba(15, 15, 35, 0.6);
   --text-primary: #eaeaea;
   --text-secondary: #b0b0b0;
   --text-muted: #777;
   --accent: #818cf8;
-  --border: rgba(255, 255, 255, 0.08);
-  --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-  --progress-bg: #374151;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --progress-bg: rgba(55, 65, 81, 0.7);
   --progress-fill: #818cf8;
   --status-waiting: #fbbf24;
   --status-active: #34d399;
@@ -48,17 +48,17 @@ html, body {
 
 body {
   min-height: 100vh;
-  background-color: #f0f2f5;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: #0a0a19;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.overlay {
+.bg-image {
   position: fixed;
   inset: 0;
-  background: var(--bg-overlay);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
 }
 
@@ -76,12 +76,13 @@ body {
   font-weight: 700;
   margin-bottom: 32px;
   color: var(--text-primary);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .exam-card {
   background: var(--bg-card);
-  backdrop-filter: blur(var(--card-blur));
-  -webkit-backdrop-filter: blur(var(--card-blur));
+  backdrop-filter: blur(var(--card-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--card-blur)) saturate(1.2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
