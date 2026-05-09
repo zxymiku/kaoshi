@@ -20,8 +20,8 @@
           "name": "语文",
           "type": "weekly",
           "dayOfWeek": 0,
-          "startTime": "08:00",
-          "endTime": "08:30",
+          "startTime": "18:15",
+          "endTime": "20:45",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
@@ -38,8 +38,8 @@
           "name": "数学",
           "type": "weekly",
           "dayOfWeek": 0,
-          "startTime": "19:00",
-          "endTime": "20:30",
+          "startTime": "07:40",
+          "endTime": "09:40",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
@@ -47,8 +47,8 @@
           "name": "英语",
           "type": "weekly",
           "dayOfWeek": 0,
-          "startTime": "18:00",
-          "endTime": "18:45",
+          "startTime": "09:50",
+          "endTime": "11:50",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
@@ -65,8 +65,8 @@
           "name": "生物",
           "type": "weekly",
           "dayOfWeek": 0,
-          "startTime": "15:55",
-          "endTime": "17:10",
+          "startTime": "15:50",
+          "endTime": "17:05",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         }
@@ -79,8 +79,8 @@
           "name": "语文",
           "type": "weekly",
           "dayOfWeek": 3,
-          "startTime": "08:00",
-          "endTime": "08:30",
+          "startTime": "18:15",
+          "endTime": "20:45",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
@@ -97,8 +97,8 @@
           "name": "数学",
           "type": "weekly",
           "dayOfWeek": 4,
-          "startTime": "19:00",
-          "endTime": "20:30",
+          "startTime": "07:40",
+          "endTime": "09:40",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
@@ -106,8 +106,8 @@
           "name": "英语",
           "type": "weekly",
           "dayOfWeek": 4,
-          "startTime": "18:00",
-          "endTime": "18:45",
+          "startTime": "9:50",
+          "endTime": "11:50",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"
         },
