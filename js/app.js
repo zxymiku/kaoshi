@@ -52,7 +52,8 @@ function updateClock() {
   const h = pad(now.getHours());
   const m = pad(now.getMinutes());
   const s = pad(now.getSeconds());
-  document.getElementById('current-time').textContent = `${h}:${m}:${s}`;
+  const el = document.getElementById('current-time') || document.getElementById('clock-time');
+  if (el) el.textContent = `${h}:${m}:${s}`;
 }
 
 function showError(title, message) {
@@ -64,29 +65,66 @@ function renderExams(exams) {
   const container = document.getElementById('exam-container');
   container.innerHTML = '';
 
-  exams.forEach(exam => {
-    const card = document.createElement('div');
-    card.className = 'exam-card';
+  const nearest = findNearestExam(exams);
+  if (!nearest) {
+    showError('暂无即将进行的考试', '所有考试均已结束');
+    return;
+  }
 
-    const header = document.createElement('div');
-    header.className = 'exam-header';
-    header.innerHTML = `
-      <h2 class="exam-name">${esc(exam.name)}</h2>
-      <span class="badge exam-badge" data-exam></span>
-    `;
+  const card = document.createElement('div');
+  card.className = 'exam-card';
 
-    const list = document.createElement('div');
-    list.className = 'subject-list';
+  const header = document.createElement('div');
+  header.className = 'exam-header';
+  header.innerHTML = `
+    <h2 class="exam-name">${esc(nearest.name)}</h2>
+    <span class="badge exam-badge" data-exam></span>
+  `;
 
-    exam.subjects.forEach(subject => {
-      const row = createSubjectRow(subject);
-      if (row) list.appendChild(row);
-    });
+  const list = document.createElement('div');
+  list.className = 'subject-list';
 
-    card.appendChild(header);
-    card.appendChild(list);
-    container.appendChild(card);
+  nearest.subjects.forEach(subject => {
+    const row = createSubjectRow(subject);
+    if (row) list.appendChild(row);
   });
+
+  card.appendChild(header);
+  card.appendChild(list);
+  container.appendChild(card);
+}
+
+function findNearestExam(exams) {
+  const now = getNow();
+  let best = null;
+  let bestDistance = Infinity;
+
+  for (const exam of exams) {
+    let examStart = Infinity;
+    let hasActive = false;
+    let allDone = true;
+
+    for (const subject of exam.subjects) {
+      const occ = resolveNextOccurrence(subject);
+      if (!occ) continue;
+      allDone = false;
+      const startMs = occ.start.getTime();
+      const endMs = occ.end.getTime();
+      if (now >= startMs && now <= endMs) hasActive = true;
+      if (startMs < examStart) examStart = startMs;
+    }
+
+    if (hasActive) return exam;
+    if (allDone) continue;
+
+    const distance = examStart - now;
+    if (distance >= 0 && distance < bestDistance) {
+      bestDistance = distance;
+      best = exam;
+    }
+  }
+
+  return best;
 }
 
 function createSubjectRow(subject) {
