@@ -1,4 +1,8 @@
+let timeOffset = 0;
+
 document.addEventListener('DOMContentLoaded', async () => {
+  initClock();
+
   const config = await loadConfig();
 
   if (!config) {
@@ -23,6 +27,33 @@ document.addEventListener('DOMContentLoaded', async () => {
   setInterval(() => updateTimers(), 1000);
   updateTimers();
 });
+
+async function initClock() {
+  try {
+    const resp = await fetch('https://worldtimeapi.org/api/timezone/Asia/Shanghai');
+    if (resp.ok) {
+      const data = await resp.json();
+      const serverTime = new Date(data.datetime).getTime();
+      timeOffset = serverTime - Date.now();
+    }
+  } catch (e) {
+    timeOffset = 0;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+}
+
+function getNow() {
+  return Date.now() + timeOffset;
+}
+
+function updateClock() {
+  const now = new Date(getNow());
+  const h = pad(now.getHours());
+  const m = pad(now.getMinutes());
+  const s = pad(now.getSeconds());
+  document.getElementById('current-time').textContent = `${h}:${m}:${s}`;
+}
 
 function showError(title, message) {
   const container = document.getElementById('exam-container');
@@ -86,7 +117,7 @@ function createSubjectRow(subject) {
 }
 
 function updateTimers() {
-  const now = Date.now();
+  const now = getNow();
   const rows = document.querySelectorAll('.subject-row');
 
   rows.forEach(row => {
@@ -131,7 +162,7 @@ function updateExamBadges() {
     const rows = card.querySelectorAll('.subject-row');
     let hasActive = false;
     let allDone = true;
-    const now = Date.now();
+    const now = getNow();
 
     rows.forEach(row => {
       const start = parseInt(row.dataset.start);
