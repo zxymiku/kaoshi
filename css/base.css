@@ -1,0 +1,76 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
+
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --bg-card-hover: rgba(255, 255, 255, 0.8);
+  --bg-header: rgba(255, 255, 255, 0.75);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent: #4f46e5;
+  --accent-light: #a5b4fc;
+  --accent-glow: rgba(79, 70, 229, 0.4);
+  --border: rgba(255, 255, 255, 0.6);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --progress-bg: rgba(0, 0, 0, 0.08);
+  --progress-fill: linear-gradient(90deg, #4f46e5, #7c3aed, #a78bfa);
+  --status-waiting: #d97706;
+  --status-waiting-bg: rgba(217, 119, 6, 0.15);
+  --status-active: #059669;
+  --status-active-bg: rgba(5, 150, 105, 0.15);
+  --status-done: #6b7280;
+  --status-done-bg: rgba(107, 114, 128, 0.12);
+  --card-blur: 24px;
+  --radius: 24px;
+  --radius-sm: 12px;
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-card: rgba(15, 23, 42, 0.72);
+  --bg-card-hover: rgba(15, 23, 42, 0.8);
+  --bg-header: rgba(15, 23, 42, 0.75);
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #a5b4fc;
+  --accent-light: #6366f1;
+  --accent-glow: rgba(165, 180, 252, 0.35);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --progress-bg: rgba(255, 255, 255, 0.08);
+  --progress-fill: linear-gradient(90deg, #818cf8, #a78bfa, #c4b5fd);
+  --status-waiting: #fbbf24;
+  --status-waiting-bg: rgba(251, 191, 36, 0.18);
+  --status-active: #34d399;
+  --status-active-bg: rgba(52, 211, 153, 0.18);
+  --status-done: #94a3b8;
+  --status-done-bg: rgba(148, 163, 184, 0.15);
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #0f172a;
+  position: relative;
+  overflow-x: hidden;
+}
