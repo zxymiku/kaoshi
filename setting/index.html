@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置 - 考试计时</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .settings-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .settings-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .form-group input[type="text"],
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+    }
+    .form-group textarea {
+      min-height: 200px;
+      font-family: "Cascadia Code", "Fira Code", monospace;
+      font-size: 0.85rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: var(--progress-bg);
+      color: var(--text-primary);
+      margin-left: 8px;
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+      margin-left: 8px;
+    }
+    .theme-toggle {
+      display: flex;
+      gap: 12px;
+    }
+    .theme-toggle label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      background: var(--status-active);
+      color: #fff;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+    .file-input-wrapper {
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <main class="container">
+    <h1 class="page-title">设置</h1>
+
+    <div class="settings-card">
+      <h2>JSON 配置</h2>
+      <div class="form-group">
+        <label for="config-json">粘贴 JSON 配置内容</label>
+        <textarea id="config-json" placeholder='{"title": "...", "exams": [...]}'></textarea>
+      </div>
+      <div class="form-group file-input-wrapper">
+        <label for="config-file">或从文件加载</label>
+        <input type="file" id="config-file" accept=".json">
+      </div>
+      <button class="btn btn-primary" id="save-config">保存配置</button>
+      <button class="btn btn-danger" id="clear-config">清除本地配置</button>
+    </div>
+
+    <div class="settings-card">
+      <h2>背景图片</h2>
+      <div class="form-group">
+        <label for="bg-url">背景图片 URL（留空使用配置文件中的默认值）</label>
+        <input type="text" id="bg-url" placeholder="https://example.com/background.jpg">
+      </div>
+      <button class="btn btn-primary" id="save-bg">保存</button>
+      <button class="btn btn-secondary" id="clear-bg">清除</button>
+    </div>
+
+    <div class="settings-card">
+      <h2>主题</h2>
+      <div class="theme-toggle">
+        <label><input type="radio" name="theme" value="light"> 亮色</label>
+        <label><input type="radio" name="theme" value="dark"> 暗色</label>
+        <label><input type="radio" name="theme" value=""> 跟随系统</label>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <button class="btn btn-primary" id="preview-btn">预览主页</button>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="../js/settings.js"></script>
+</body>
+</html>
