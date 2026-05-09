@@ -1,4 +1,4 @@
-const DEFAULT_CONFIG_URL = './example.json';
+const DEFAULT_CONFIG_URL = 'https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/json/kaoshi.json';
 
 const STORAGE_KEYS = {
   config: 'kaoshi_config',
