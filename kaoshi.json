@@ -1,0 +1,76 @@
+{
+  "title": "考试",
+  "backgrounds": [
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/01.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/02.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/03.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/04.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/05.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/06.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/07.jpg",
+    "https://git.zxymiku.top/https://github.com/zxymiku/kaoshi/releases/download/img/08.jpg"
+  ],
+  "backgroundBlur": 6,
+  "theme": "light",
+  "exams": [
+    {
+      "name": "模拟考试",
+      "subjects": [
+        {
+          "name": "语文",
+          "type": "weekly",
+          "dayOfWeek": 0,
+          "startTime": "08:00",
+          "endTime": "08:30",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        },
+        {
+          "name": "物理",
+          "type": "weekly",
+          "dayOfWeek": 0,
+          "startTime": "20:55",
+          "endTime": "22:10",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        },
+        {
+          "name": "数学",
+          "type": "weekly",
+          "dayOfWeek": 0,
+          "startTime": "19:00",
+          "endTime": "20:30",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        },
+        {
+          "name": "英语",
+          "type": "weekly",
+          "dayOfWeek": 0,
+          "startTime": "18:00",
+          "endTime": "18:45",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        },
+        {
+          "name": "化学",
+          "type": "weekly",
+          "dayOfWeek": 1,
+          "startTime": "14:30",
+          "endTime": "15:45",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        },
+        {
+          "name": "生物",
+          "type": "weekly",
+          "dayOfWeek": 0,
+          "startTime": "15:55",
+          "endTime": "17:10",
+          "validFrom": "2026-03-01",
+          "validUntil": "2026-06-30"
+        }
+      ]
+    }
+  ]
+}
