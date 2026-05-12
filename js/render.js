@@ -1,4 +1,4 @@
-function renderExams(exams) {
+function renderExams(exams, config) {
   const container = document.getElementById('exam-container');
   container.innerHTML = '';
 
@@ -6,6 +6,19 @@ function renderExams(exams) {
   if (subjects.length === 0) {
     showError('暂无即将进行的考试', '所有考试均已结束或距离下一场超过8小时');
     return;
+  }
+
+  // 检查是否有科目间隔 >= 10分钟，如果有则重新选取背景
+  let hasLargeGap = false;
+  for (let i = 1; i < subjects.length; i++) {
+    const gap = subjects[i].start - subjects[i-1].end;
+    if (gap >= 10 * 60 * 1000) { // 10分钟
+      hasLargeGap = true;
+      break;
+    }
+  }
+  if (hasLargeGap) {
+    applyBackground(config);
   }
 
   const card = document.createElement('div');
@@ -117,6 +130,7 @@ function updateTimers() {
       badgeEl.className = 'badge badge-done';
       fillEl.style.width = '100%';
       barEl.setAttribute('aria-valuenow', '100');
+      row.style.display = 'none'; // 隐藏已结束的考试信息
     }
   });
 }

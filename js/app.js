@@ -21,7 +21,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  renderExams(config.exams);
+  renderExams(config.exams, config);
   setInterval(() => updateTimers(), 1000);
   updateTimers();
+
+  // 每5分钟自动更新配置
+  setInterval(async () => {
+    const newConfig = await loadConfig();
+    if (newConfig && newConfig.exams) {
+      renderExams(newConfig.exams, newConfig);
+    }
+  }, 5 * 60 * 1000);
 });
