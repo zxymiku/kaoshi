@@ -1,22 +1,14 @@
-let timeOffset = 0;
-
-async function initClock() {
-  try {
-    const resp = await fetch('https://worldtimeapi.org/api/timezone/Asia/Shanghai');
-    if (resp.ok) {
-      const data = await resp.json();
-      const serverTime = new Date(data.datetime).getTime();
-      timeOffset = serverTime - Date.now();
-    }
-  } catch (e) {
-    timeOffset = 0;
-  }
+function initClock() {
   updateClock();
   setInterval(updateClock, 1000);
 }
 
 function getNow() {
-  return Date.now() + timeOffset;
+  return Date.now();
+}
+
+function pad(num) {
+  return num < 10 ? '0' + num : num;
 }
 
 function updateClock() {
