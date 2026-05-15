@@ -97,7 +97,6 @@ function applyBackground(config) {
     const blur = config.backgroundBlur != null ? config.backgroundBlur : 0;
     if (blur > 0) {
       bgEl.style.filter = `blur(${blur}px)`;
-      bgEl.style.transform = 'scale(1.1)';
     }
   }
 }
