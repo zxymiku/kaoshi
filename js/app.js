@@ -25,12 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   setInterval(() => updateTimers(), 1000);
   updateTimers();
 
-  // 每5分钟自动重新加载配置，但仅更新考试科目状态，不更改背景图片
-  setInterval(async () => {
-    const newConfig = await loadConfig();
-    if (newConfig && newConfig.exams) {
-      renderExams(newConfig.exams, initialConfig);
-      updateTimers();
-    }
+  // 每5分钟重新渲染考试信息（使用已加载的 config），无需重新下载 JSON
+  setInterval(() => {
+    renderExams(initialConfig.exams, initialConfig);
+    updateTimers();
   }, 5 * 60 * 1000);
 });

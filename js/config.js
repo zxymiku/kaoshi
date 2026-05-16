@@ -49,11 +49,16 @@ async function loadConfig() {
 }
 
 async function fetchJson(url) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+
   try {
-    const resp = await fetch(url);
+    const resp = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     return await resp.json();
   } catch (e) {
+    clearTimeout(timeoutId);
     console.error('Failed to fetch config:', url, e);
     return null;
   }

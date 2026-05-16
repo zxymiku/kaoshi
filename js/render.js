@@ -8,16 +8,28 @@ function renderExams(exams, config) {
     return;
   }
 
-  // 检查是否有科目间隔 >= 10分钟，如果有则重新选取背景
-  let hasLargeGap = false;
-  for (let i = 1; i < subjects.length; i++) {
-    const gap = subjects[i].start - subjects[i-1].end;
-    if (gap >= 10 * 60 * 1000) { // 10分钟
-      hasLargeGap = true;
+  // 检查是否应该更换背景：当前时间在两个属于同一考试的科目之间，且间隔 >= 10分钟
+  const now = getNow();
+  let shouldChangeBackground = false;
+
+  for (let i = 0; i < subjects.length - 1; i++) {
+    const current = subjects[i];
+    const next = subjects[i + 1];
+    const gap = next.start - current.end;
+
+    // 检查：
+    // 1. 当前时间在两个科目之间
+    // 2. 两个科目属于同一考试
+    // 3. 间隔 >= 10分钟
+    if (now > current.end && now < next.start && 
+        current.examName === next.examName && 
+        gap >= 10 * 60 * 1000) {
+      shouldChangeBackground = true;
       break;
     }
   }
-  if (hasLargeGap) {
+
+  if (shouldChangeBackground) {
     applyBackground(config);
   }
 
@@ -46,7 +58,12 @@ function collectNearestSubjects(exams) {
     for (const subject of exam.subjects) {
       const occ = resolveNextOccurrence(subject);
       if (!occ) continue;
-      allSubjects.push({ name: subject.name, start: occ.start.getTime(), end: occ.end.getTime() });
+      allSubjects.push({
+        name: subject.name,
+        start: occ.start.getTime(),
+        end: occ.end.getTime(),
+        examName: exam.name
+      });
     }
   }
 
