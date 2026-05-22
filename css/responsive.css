@@ -1,56 +1,72 @@
-@media (max-width: 600px) {
-  .container {
-    padding: 32px 16px 48px;
-  }
-
-  .page-header {
-    margin-bottom: 32px;
-    padding: 24px 20px;
-    border-radius: 20px;
-  }
-
-  .clock-time {
-    font-size: 3.2rem;
-  }
-
-  .page-title {
-    font-size: 1rem;
-  }
-
-  .exam-card {
-    border-radius: 20px;
-  }
-
-  .subject-list {
-    padding: 16px 20px 20px;
-  }
-
+@media (max-width: 768px) {
   .subject-row {
     grid-template-columns: 1fr auto;
-    gap: 3px 12px;
+    grid-template-rows: auto auto auto auto;
+    gap: 8px 16px;
   }
-
-  .subject-countdown {
-    font-size: 1.25rem;
-    grid-column: 2;
+  
+  .subject-name {
+    grid-column: 1 / -1;
     grid-row: 1;
+    font-size: 1.3rem;
   }
-
+  
+  .subject-time {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  
+  .subject-countdown {
+    grid-column: 1;
+    grid-row: 3;
+    text-align: left;
+    font-size: 1.4rem;
+  }
+  
   .subject-status {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 3;
     margin-left: 0;
     justify-self: end;
   }
+  
+  .subject-progress {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
 
-  .badge {
-    font-size: 0.75rem;
-    padding: 4px 12px;
+  .subject-row.subject-primary .subject-name {
+    font-size: 1.8rem;
+  }
+
+  .subject-row.subject-primary .subject-countdown {
+    font-size: 1.8rem;
+  }
+  
+  .clock-time {
+    font-size: 3.5rem;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
+  .container {
+    padding: 30px 16px 80px;
+  }
+  
+  .subject-list {
+    padding: 16px 20px 24px;
+  }
+
   .clock-time {
-    font-size: 2.6rem;
+    font-size: 2.8rem;
+  }
+
+  .bg-switcher {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  .bg-switcher-panel {
+    width: calc(100vw - 32px);
   }
 }

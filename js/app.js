@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderExams(initialConfig.exams, initialConfig);
+  initBgPicker(initialConfig);
   setInterval(() => updateTimers(), 1000);
   updateTimers();
 

@@ -2,9 +2,12 @@ const DEFAULT_CONFIG_URL = 'https://git.zxymiku.top/https://raw.githubuserconten
 
 const STORAGE_KEYS = {
   config: 'kaoshi_config',
+  configTime: 'kaoshi_config_time',
   background: 'kaoshi_background',
   theme: 'kaoshi_theme'
 };
+
+const CONFIG_EXPIRE_MS = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
 async function loadConfig() {
   let config = null;
@@ -18,9 +21,26 @@ async function loadConfig() {
 
   if (!config) {
     const stored = localStorage.getItem(STORAGE_KEYS.config);
-    if (stored) {
+    const storedTime = localStorage.getItem(STORAGE_KEYS.configTime);
+    
+    if (stored && storedTime) {
+      const timeDiff = Date.now() - parseInt(storedTime, 10);
+      if (timeDiff > CONFIG_EXPIRE_MS) {
+        console.log('Local config expired (3 days). Dropping and fetching default.');
+        localStorage.removeItem(STORAGE_KEYS.config);
+        localStorage.removeItem(STORAGE_KEYS.configTime);
+      } else {
+        try {
+          config = JSON.parse(stored);
+        } catch (e) {
+          console.warn('Invalid localStorage config:', e);
+        }
+      }
+    } else if (stored && !storedTime) {
+      // Legacy config without timestamp, clear it to be safe or migrate it. Let's just use it and set time to now.
       try {
         config = JSON.parse(stored);
+        localStorage.setItem(STORAGE_KEYS.configTime, Date.now().toString());
       } catch (e) {
         console.warn('Invalid localStorage config:', e);
       }
@@ -50,7 +70,7 @@ async function loadConfig() {
 
 async function fetchJson(url) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
 
   try {
     const resp = await fetch(url, { signal: controller.signal });
@@ -82,14 +102,28 @@ function applyTheme(config) {
   document.documentElement.setAttribute('data-theme', theme);
 }
 
-function applyBackground(config) {
+function getRandomBackgroundUrl(config, excludeUrl) {
+  if (!config || !Array.isArray(config.backgrounds) || config.backgrounds.length === 0) {
+    return '';
+  }
+
+  const list = config.backgrounds.filter(url => url && url !== excludeUrl);
+  const candidates = list.length > 0 ? list : config.backgrounds;
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function applyBackground(config, overrideUrl) {
   if (!config) return;
 
   let bgUrl = '';
 
-  if (config.backgrounds && config.backgrounds.length > 0) {
-    const idx = Math.floor(Math.random() * config.backgrounds.length);
-    bgUrl = config.backgrounds[idx];
+  const bgOverride = localStorage.getItem(STORAGE_KEYS.background);
+  if (overrideUrl) {
+    bgUrl = overrideUrl;
+  } else if (bgOverride) {
+    bgUrl = bgOverride;
+  } else if (config.backgrounds && config.backgrounds.length > 0) {
+    bgUrl = getRandomBackgroundUrl(config);
   } else if (config.background) {
     bgUrl = config.background;
   }
@@ -102,6 +136,8 @@ function applyBackground(config) {
     const blur = config.backgroundBlur != null ? config.backgroundBlur : 0;
     if (blur > 0) {
       bgEl.style.filter = `blur(${blur}px)`;
+    } else {
+      bgEl.style.filter = '';
     }
   }
 }

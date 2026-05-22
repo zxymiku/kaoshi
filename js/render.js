@@ -1,3 +1,6 @@
+let lastBackgroundGapKey = null;
+let lastBackgroundGapUrl = null;
+
 function renderExams(exams, config) {
   const container = document.getElementById('exam-container');
   container.innerHTML = '';
@@ -8,28 +11,20 @@ function renderExams(exams, config) {
     return;
   }
 
-  // 检查是否应该更换背景：当前时间在两个属于同一考试的科目之间，且间隔 >= 10分钟
   const now = getNow();
-  let shouldChangeBackground = false;
+  const gapInfo = findCurrentGapInterval(exams, now);
+  const manualOverride = localStorage.getItem(STORAGE_KEYS.background);
 
-  for (let i = 0; i < subjects.length - 1; i++) {
-    const current = subjects[i];
-    const next = subjects[i + 1];
-    const gap = next.start - current.end;
-
-    // 检查：
-    // 1. 当前时间在两个科目之间
-    // 2. 两个科目属于同一考试
-    // 3. 间隔 >= 10分钟
-    if (now > current.end && now < next.start && 
-        current.examName === next.examName && 
-        gap >= 10 * 60 * 1000) {
-      shouldChangeBackground = true;
-      break;
+  if (gapInfo && !manualOverride) {
+    const gapKey = `${gapInfo.examName}|${gapInfo.currentEnd}|${gapInfo.nextStart}`;
+    if (gapKey !== lastBackgroundGapKey) {
+      lastBackgroundGapKey = gapKey;
+      lastBackgroundGapUrl = getRandomBackgroundUrl(config);
     }
-  }
-
-  if (shouldChangeBackground) {
+    applyBackground(config, lastBackgroundGapUrl);
+  } else {
+    lastBackgroundGapKey = null;
+    lastBackgroundGapUrl = null;
     applyBackground(config);
   }
 
@@ -86,6 +81,45 @@ function collectNearestSubjects(exams) {
   }
 
   return result;
+}
+
+function findCurrentGapInterval(exams, now) {
+  for (const exam of exams) {
+    const occurrences = [];
+    for (const subject of exam.subjects) {
+      const next = resolveNextOccurrence(subject);
+      if (next) {
+        occurrences.push({
+          name: subject.name,
+          start: next.start.getTime(),
+          end: next.end.getTime()
+        });
+      }
+      const previous = resolvePreviousOccurrence(subject);
+      if (previous) {
+        occurrences.push({
+          name: subject.name,
+          start: previous.start.getTime(),
+          end: previous.end.getTime()
+        });
+      }
+    }
+
+    occurrences.sort((a, b) => a.start - b.start);
+    for (let i = 0; i < occurrences.length - 1; i++) {
+      const current = occurrences[i];
+      const next = occurrences[i + 1];
+      const gap = next.start - current.end;
+      if (current.name !== next.name && now > current.end && now < next.start && gap >= 10 * 60 * 1000) {
+        return {
+          examName: exam.name,
+          currentEnd: current.end,
+          nextStart: next.start
+        };
+      }
+    }
+  }
+  return null;
 }
 
 function createSubjectRowFromOccurrence(name, startMs, endMs, isPrimary) {
