@@ -1,0 +1,13 @@
+# 排除 img 目录中的所有文件 - 避免超过 25MiB 单文件限制
+# 这些文件仍会保存在 GitHub 仓库中
+img/
+img/**
+
+# 排除版本控制和构建文件
+.git/
+.github/
+node_modules/
+.env*
+.pagesignore
+.gitignore
+wrangler.toml
