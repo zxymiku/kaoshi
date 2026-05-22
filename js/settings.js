@@ -116,6 +116,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  function padTime(timeStr) {
+    if (!timeStr) return '';
+    const parts = timeStr.split(':');
+    if (parts.length >= 2) {
+      return `${parts[0].padStart(2, '0')}:${parts[1].padStart(2, '0')}`;
+    }
+    return timeStr;
+  }
+
   function renderSubjectForm(subj) {
     const div = document.createElement('div');
     div.className = 'editor-subject';
@@ -126,8 +135,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         <option value="date" ${subj.type === 'date' ? 'selected' : ''}>特定日期</option>
       </select></div>
       <div><label>星期/日期</label><input type="text" class="form-control subj-day" value="${subj.dayOfWeek !== undefined ? subj.dayOfWeek : (subj.date || '')}" placeholder="0=周日, YYYY-MM-DD"></div>
-      <div><label>开始时间</label><input type="time" class="form-control subj-start" value="${subj.startTime || ''}"></div>
-      <div><label>结束时间</label><input type="time" class="form-control subj-end" value="${subj.endTime || ''}"></div>
+      <div><label>开始时间</label><input type="time" class="form-control subj-start" value="${padTime(subj.startTime)}"></div>
+      <div><label>结束时间</label><input type="time" class="form-control subj-end" value="${padTime(subj.endTime)}"></div>
       <div style="display:flex; align-items:flex-end;"><button class="btn btn-danger btn-remove-subj" style="padding: 10px 14px;">X</button></div>
     `;
     div.querySelector('.btn-remove-subj').addEventListener('click', () => div.remove());

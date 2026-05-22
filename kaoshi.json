@@ -170,7 +170,7 @@
           "name": "英语",
           "type": "weekly",
           "dayOfWeek": 4,
-          "startTime": "9:50",
+          "startTime": "09:50",
           "endTime": "11:50",
           "validFrom": "2026-03-01",
           "validUntil": "2026-06-30"

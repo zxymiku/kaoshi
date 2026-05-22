@@ -123,7 +123,12 @@ function applyBackground(config, overrideUrl) {
   } else if (bgOverride) {
     bgUrl = bgOverride;
   } else if (config.backgrounds && config.backgrounds.length > 0) {
-    bgUrl = getRandomBackgroundUrl(config);
+    let sessionBg = sessionStorage.getItem('kaoshi_session_bg');
+    if (!sessionBg || !config.backgrounds.includes(sessionBg)) {
+      sessionBg = getRandomBackgroundUrl(config);
+      sessionStorage.setItem('kaoshi_session_bg', sessionBg);
+    }
+    bgUrl = sessionBg;
   } else if (config.background) {
     bgUrl = config.background;
   }

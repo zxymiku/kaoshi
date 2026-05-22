@@ -241,13 +241,13 @@
 
 .bg-switcher-popup {
   position: absolute;
-  bottom: calc(100% + 12px);
+  bottom: calc(100% + 10px);
   left: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 8px 12px;
   background: var(--bg-header);
   -webkit-backdrop-filter: blur(var(--card-blur)) saturate(1.8);
   backdrop-filter: blur(var(--card-blur)) saturate(1.8);
@@ -256,7 +256,7 @@
   box-shadow: var(--shadow-lg);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(15px) scale(0.95);
+  transform: translateY(12px) scale(0.95);
   transform-origin: bottom left;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -271,8 +271,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  min-width: 80px;
+  gap: 6px;
+  min-width: 68px;
 }
 
 .bg-arrow {
@@ -299,7 +299,7 @@
 
 .bg-name-wrapper {
   overflow: hidden;
-  height: 24px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,9 +308,14 @@
 .bg-name {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-variant-numeric: tabular-nums;
   transition: transform 0.2s;
+}
+
+.bg-switcher-popup .btn {
+  padding: 6px 12px;
+  font-size: 0.85rem;
 }
 
 .btn {
