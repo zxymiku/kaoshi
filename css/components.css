@@ -138,6 +138,12 @@
   bottom: 0;
   width: 20px;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.progress-fill.progress-fill--running::after {
+  opacity: 1;
   animation: shimmer 2s infinite linear;
 }
 

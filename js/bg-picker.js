@@ -27,7 +27,7 @@ function initBgPicker(config) {
   let currentIndex = 0;
 
   // Try to find the currently active background to set initial index
-  const savedBg = localStorage.getItem(BG_STORAGE_KEY);
+  const savedBg = sessionStorage.getItem(BG_STORAGE_KEY);
   if (savedBg) {
     const foundIdx = items.findIndex(item => item.url === savedBg);
     if (foundIdx !== -1) {
@@ -128,7 +128,7 @@ function parseBackgroundLabel(url, index) {
 }
 
 function applyBackgroundSelection(url, config) {
-  localStorage.setItem(BG_STORAGE_KEY, url);
+  sessionStorage.setItem(BG_STORAGE_KEY, url);
   const bgEl = document.getElementById('bg-image');
   if (!bgEl) return;
   bgEl.style.backgroundImage = `url("${url}")`;

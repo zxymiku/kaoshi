@@ -55,9 +55,12 @@ async function loadConfig() {
     return null;
   }
 
-  const bgOverride = localStorage.getItem(STORAGE_KEYS.background);
+  const bgOverride = sessionStorage.getItem(STORAGE_KEYS.background);
   if (bgOverride) {
     config.backgrounds = [bgOverride];
+  }
+  if (localStorage.getItem(STORAGE_KEYS.background)) {
+    localStorage.removeItem(STORAGE_KEYS.background);
   }
 
   const themeOverride = localStorage.getItem(STORAGE_KEYS.theme);
@@ -117,7 +120,7 @@ function applyBackground(config, overrideUrl) {
 
   let bgUrl = '';
 
-  const bgOverride = localStorage.getItem(STORAGE_KEYS.background);
+  const bgOverride = sessionStorage.getItem(STORAGE_KEYS.background);
   if (overrideUrl) {
     bgUrl = overrideUrl;
   } else if (bgOverride) {

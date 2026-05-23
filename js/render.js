@@ -13,7 +13,7 @@ function renderExams(exams, config) {
 
   const now = getNow();
   const gapInfo = findCurrentGapInterval(exams, now);
-  const manualOverride = localStorage.getItem(STORAGE_KEYS.background);
+  const manualOverride = sessionStorage.getItem(STORAGE_KEYS.background);
 
   if (gapInfo && !manualOverride) {
     const gapKey = `${gapInfo.examName}|${gapInfo.currentEnd}|${gapInfo.nextStart}`;
@@ -47,6 +47,7 @@ function collectNearestSubjects(exams) {
   const now = getNow();
   const MAX_GAP = 8 * 3600 * 1000;
   const GROUP_GAP = 1 * 3600 * 1000;
+  const RECENT_END_BUFFER = 60 * 1000;
 
   let allSubjects = [];
   for (const exam of exams) {
@@ -62,7 +63,7 @@ function collectNearestSubjects(exams) {
     }
   }
 
-  allSubjects = allSubjects.filter(s => s.end > now);
+  allSubjects = allSubjects.filter(s => s.end > now - RECENT_END_BUFFER);
   allSubjects.sort((a, b) => a.start - b.start);
 
   if (allSubjects.length === 0) return [];
@@ -173,15 +174,25 @@ function updateTimers() {
       countdownEl.innerHTML = `<span class="countdown-label">距结束</span>${formatCountdown(diff)}`;
       badgeEl.textContent = '进行中';
       badgeEl.className = 'badge badge-active';
+      fillEl.classList.add('progress-fill--running');
       fillEl.style.width = `${progress.toFixed(1)}%`;
       barEl.setAttribute('aria-valuenow', Math.round(progress).toString());
+    } else if (now > end && now <= end + 60 * 1000) {
+      countdownEl.innerHTML = `<span class="countdown-label">已结束</span>--:--:--`;
+      badgeEl.textContent = '已结束';
+      badgeEl.className = 'badge badge-done';
+      fillEl.classList.remove('progress-fill--running');
+      fillEl.style.width = '100%';
+      barEl.setAttribute('aria-valuenow', '100');
+      row.style.display = '';
     } else {
       countdownEl.innerHTML = `<span class="countdown-label">已结束</span>--:--:--`;
       badgeEl.textContent = '已结束';
       badgeEl.className = 'badge badge-done';
+      fillEl.classList.remove('progress-fill--running');
       fillEl.style.width = '100%';
       barEl.setAttribute('aria-valuenow', '100');
-      row.style.display = 'none'; // 隐藏已结束的考试信息
+      row.style.display = 'none'; // 隐藏已结束超过1分钟的考试信息
     }
   });
 }

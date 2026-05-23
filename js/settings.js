@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- End Visual Editor Logic ---
 
   // Background setting
-  const savedBg = localStorage.getItem(STORAGE_KEYS.background);
+  const savedBg = sessionStorage.getItem(STORAGE_KEYS.background);
   if (savedBg) bgUrlInput.value = savedBg;
 
   // Theme setting
@@ -281,16 +281,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   saveBgBtn.addEventListener('click', () => {
     const val = bgUrlInput.value.trim();
     if (val) {
-      localStorage.setItem(STORAGE_KEYS.background, val);
-      showToast('自定义背景已保存');
+      sessionStorage.setItem(STORAGE_KEYS.background, val);
+      showToast('自定义背景已保存（仅本次访问生效）');
     } else {
-      localStorage.removeItem(STORAGE_KEYS.background);
+      sessionStorage.removeItem(STORAGE_KEYS.background);
       showToast('已清除背景设置');
     }
   });
 
   clearBgBtn.addEventListener('click', () => {
-    localStorage.removeItem(STORAGE_KEYS.background);
+    sessionStorage.removeItem(STORAGE_KEYS.background);
     bgUrlInput.value = '';
     showToast('已清除自定义背景');
   });
