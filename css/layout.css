@@ -28,7 +28,7 @@
   z-index: 1;
   max-width: 720px;
   margin: 0 auto;
-  padding: 24px 24px 32px;
+  padding: 24px 24px 20vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
