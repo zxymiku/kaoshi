@@ -31,7 +31,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.body.classList.add('loaded');
   });
 
-  setInterval(() => updateTimers(), 1000);
+  setInterval(() => {
+    updateTimers();
+    if (initialConfig.exams) {
+      checkBackgroundGap(initialConfig.exams, initialConfig);
+    }
+  }, 1000);
   updateTimers();
 
   // 每5分钟重新渲染考试信息（使用已加载的 config），无需重新下载 JSON

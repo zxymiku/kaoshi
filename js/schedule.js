@@ -21,11 +21,11 @@ function resolveNextOccurrence(subject) {
 function resolveWeekly(subject, now) {
   const target = findNextWeekday(now, subject.dayOfWeek, subject.startTime, subject.endTime);
 
-  if (subject.validUntil && target.start > new Date(subject.validUntil + 'T23:59:59')) {
+  if (subject.validUntil && target.start > parseDateTime(subject.validUntil, '23:59')) {
     return null;
   }
-  if (subject.validFrom && target.end < new Date(subject.validFrom + 'T00:00:00')) {
-    return findNextWeekdayAfter(new Date(subject.validFrom), subject.dayOfWeek, subject.startTime, subject.endTime);
+  if (subject.validFrom && target.end < parseDateTime(subject.validFrom, '00:00')) {
+    return findNextWeekdayAfter(parseDateTime(subject.validFrom, '00:00'), subject.dayOfWeek, subject.startTime, subject.endTime);
   }
 
   return target;
@@ -60,8 +60,8 @@ function findNextWeekdayAfter(afterDate, dayOfWeek, startTime, endTime) {
 }
 
 function resolveRecurring(subject, now) {
-  const startDate = new Date(subject.startDate + 'T00:00:00');
-  const endDate = new Date(subject.endDate + 'T23:59:59');
+  const startDate = parseDateTime(subject.startDate, '00:00');
+  const endDate = parseDateTime(subject.endDate, '23:59');
   const intervalDays = getIntervalDays(subject.interval);
 
   let cursor = new Date(startDate);
@@ -108,11 +108,11 @@ function resolvePreviousOccurrence(subject) {
 function resolveWeeklyPrevious(subject, now) {
   const target = findPreviousWeekday(now, subject.dayOfWeek, subject.startTime, subject.endTime);
 
-  if (subject.validFrom && target.end < new Date(subject.validFrom + 'T00:00:00')) {
+  if (subject.validFrom && target.end < parseDateTime(subject.validFrom, '00:00')) {
     return null;
   }
 
-  if (subject.validUntil && target.start > new Date(subject.validUntil + 'T23:59:59')) {
+  if (subject.validUntil && target.start > parseDateTime(subject.validUntil, '23:59')) {
     return null;
   }
 
@@ -141,8 +141,8 @@ function findPreviousWeekday(now, dayOfWeek, startTime, endTime) {
 }
 
 function resolveRecurringPrevious(subject, now) {
-  const startDate = new Date(subject.startDate + 'T00:00:00');
-  const endDate = new Date(subject.endDate + 'T23:59:59');
+  const startDate = parseDateTime(subject.startDate, '00:00');
+  const endDate = parseDateTime(subject.endDate, '23:59');
   const intervalDays = getIntervalDays(subject.interval);
 
   let cursor = new Date(startDate);

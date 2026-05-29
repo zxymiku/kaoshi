@@ -33,7 +33,8 @@ function formatTime(date) {
 }
 
 function parseDateTime(dateStr, timeStr) {
-  return new Date(`${dateStr}T${timeStr}:00`);
+  const safeDate = dateStr.replace(/-/g, '/');
+  return new Date(`${safeDate} ${timeStr}:00`);
 }
 
 function setTime(date, timeStr) {

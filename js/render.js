@@ -18,22 +18,7 @@ function renderExams(exams, config) {
     return;
   }
 
-  const now = getNow();
-  const gapInfo = findCurrentGapInterval(exams, now);
-  const manualOverride = sessionStorage.getItem(STORAGE_KEYS.background);
-
-  if (gapInfo && !manualOverride) {
-    const gapKey = `${gapInfo.examName}|${gapInfo.currentEnd}|${gapInfo.nextStart}`;
-    if (gapKey !== lastBackgroundGapKey) {
-      lastBackgroundGapKey = gapKey;
-      lastBackgroundGapUrl = getRandomBackgroundUrl(config);
-    }
-    applyBackground(config, lastBackgroundGapUrl);
-  } else {
-    lastBackgroundGapKey = null;
-    lastBackgroundGapUrl = null;
-    applyBackground(config);
-  }
+  checkBackgroundGap(exams, config);
 
   const card = document.createElement('div');
   card.className = 'exam-card';
@@ -233,4 +218,25 @@ function updateTimers() {
 function showError(title, message) {
   const container = document.getElementById('exam-container');
   container.innerHTML = `<div class="error-message"><h2>${title}</h2><p>${message}</p></div>`;
+}
+
+function checkBackgroundGap(exams, config) {
+  const now = getNow();
+  const gapInfo = findCurrentGapInterval(exams, now);
+  const manualOverride = sessionStorage.getItem(STORAGE_KEYS.background);
+
+  if (gapInfo && !manualOverride) {
+    const gapKey = `${gapInfo.examName}|${gapInfo.currentEnd}|${gapInfo.nextStart}`;
+    if (gapKey !== lastBackgroundGapKey) {
+      lastBackgroundGapKey = gapKey;
+      lastBackgroundGapUrl = getRandomBackgroundUrl(config, lastBackgroundGapUrl);
+      applyBackground(config, lastBackgroundGapUrl);
+    }
+  } else {
+    if (lastBackgroundGapKey !== null) {
+      lastBackgroundGapKey = null;
+      lastBackgroundGapUrl = null;
+      applyBackground(config);
+    }
+  }
 }

@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       <div><label>科目名称</label><input type="text" class="form-control subj-name" value="${subj.name || ''}"></div>
       <div><label>类型</label><select class="form-control subj-type">
         <option value="weekly" ${subj.type === 'weekly' ? 'selected' : ''}>每周</option>
-        <option value="date" ${subj.type === 'date' ? 'selected' : ''}>特定日期</option>
+        <option value="fixed" ${subj.type === 'fixed' ? 'selected' : ''}>特定日期</option>
       </select></div>
       <div><label>星期/日期</label><input type="text" class="form-control subj-day" value="${subj.dayOfWeek !== undefined ? subj.dayOfWeek : (subj.date || '')}" placeholder="0=周日, YYYY-MM-DD"></div>
       <div><label>开始时间</label><input type="time" class="form-control subj-start" value="${padTime(subj.startTime)}"></div>

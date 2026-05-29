@@ -117,11 +117,18 @@ function applyBackground(config, overrideUrl) {
   let bgUrl = '';
 
   const bgOverride = sessionStorage.getItem(STORAGE_KEYS.background);
+  
+  const isReload = (window.performance && window.performance.navigation && window.performance.navigation.type === 1) || 
+                   (window.performance && window.performance.getEntriesByType('navigation').length > 0 && window.performance.getEntriesByType('navigation')[0].type === 'reload');
+  
   if (overrideUrl) {
     bgUrl = overrideUrl;
   } else if (bgOverride) {
     bgUrl = bgOverride;
   } else if (config.backgrounds && config.backgrounds.length > 0) {
+    if (isReload) {
+      sessionStorage.removeItem('kaoshi_session_bg');
+    }
     let sessionBg = sessionStorage.getItem('kaoshi_session_bg');
     if (!sessionBg || !config.backgrounds.includes(sessionBg)) {
       sessionBg = getRandomBackgroundUrl(config);
