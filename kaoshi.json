@@ -27,186 +27,45 @@
       "subjects": [
         {
           "name": "语文",
-          "type": "weekly",
-          "startTime": "18:15",
-          "endTime": "20:45",
-          "dayOfWeek": 1
-        },
-        {
-          "name": "物理",
-          "type": "weekly",
-          "startTime": "20:55",
-          "endTime": "22:10",
-          "dayOfWeek": 1
+          "type": "fixed",
+          "data": "2026-06-02",
+          "startTime": "09:00",
+          "endTime": "11:30"
         },
         {
           "name": "数学",
-          "type": "weekly",
-          "startTime": "07:40",
-          "endTime": "09:40",
-          "dayOfWeek": 2
-        },
-        {
-          "name": "英语",
-          "type": "weekly",
-          "startTime": "09:50",
-          "endTime": "11:50",
-          "dayOfWeek": 2
-        },
-        {
-          "name": "化学",
-          "type": "weekly",
-          "startTime": "14:30",
-          "endTime": "15:45",
-          "dayOfWeek": 2
-        },
-        {
-          "name": "生物",
-          "type": "weekly",
-          "startTime": "15:50",
-          "endTime": "17:05",
-          "dayOfWeek": 2
-        }
-      ]
-    },
-    {
-      "name": "模拟考试",
-      "subjects": [
-        {
-          "name": "语文",
-          "type": "weekly",
-          "startTime": "18:15",
-          "endTime": "20:45",
-          "dayOfWeek": 2
+          "type": "fixed",
+          "data": "2026-06-02",
+          "startTime": "15:00",
+          "endTime": "17:00"
         },
         {
           "name": "物理",
-          "type": "weekly",
-          "startTime": "20:55",
-          "endTime": "22:10",
-          "dayOfWeek": 2
-        },
-        {
-          "name": "数学",
-          "type": "weekly",
-          "startTime": "07:40",
-          "endTime": "09:40",
-          "dayOfWeek": 3
+          "type": "fixed",
+          "data": "2026-06-03",
+          "startTime": "09:00",
+          "endTime": "10:15"
         },
         {
           "name": "英语",
-          "type": "weekly",
-          "startTime": "09:50",
-          "endTime": "11:50",
-          "dayOfWeek": 3
+          "type": "fixed",
+          "data": "2026-06-03",
+          "startTime": "15:00",
+          "endTime": "17:00"
         },
         {
           "name": "化学",
-          "type": "weekly",
-          "startTime": "14:30",
-          "endTime": "15:45",
-          "dayOfWeek": 3
+          "type": "fixed",
+          "data": "2026-06-04",
+          "startTime": "09:00",
+          "endTime": "10:15"
         },
         {
           "name": "生物",
-          "type": "weekly",
-          "startTime": "15:50",
-          "endTime": "17:05",
-          "dayOfWeek": 3
-        }
-      ]
-    },
-    {
-      "name": "模拟考试",
-      "subjects": [
-        {
-          "name": "语文",
-          "type": "weekly",
-          "startTime": "18:15",
-          "endTime": "20:45",
-          "dayOfWeek": 3
-        },
-        {
-          "name": "物理",
-          "type": "weekly",
-          "startTime": "20:55",
-          "endTime": "22:10",
-          "dayOfWeek": 3
-        },
-        {
-          "name": "数学",
-          "type": "weekly",
-          "startTime": "07:40",
-          "endTime": "09:40",
-          "dayOfWeek": 4
-        },
-        {
-          "name": "英语",
-          "type": "weekly",
-          "startTime": "09:50",
-          "endTime": "11:50",
-          "dayOfWeek": 4
-        },
-        {
-          "name": "化学",
-          "type": "weekly",
-          "startTime": "14:30",
-          "endTime": "15:45",
-          "dayOfWeek": 4
-        },
-        {
-          "name": "生物",
-          "type": "weekly",
-          "startTime": "15:50",
-          "endTime": "17:05",
-          "dayOfWeek": 4
-        }
-      ]
-    },
-    {
-        "name":"模拟考试",
-        "subjects": [
-        {
-          "name": "语文",
-          "type": "weekly",
-          "startTime": "18:15",
-          "endTime": "20:45",
-          "dayOfWeek": 4
-        },
-        {
-          "name": "物理",
-          "type": "weekly",
-          "startTime": "20:55",
-          "endTime": "22:10",
-          "dayOfWeek": 4
-        },
-        {
-          "name": "数学",
-          "type": "weekly",
-          "startTime": "07:40",
-          "endTime": "09:40",
-          "dayOfWeek": 5
-        },
-        {
-          "name": "英语",
-          "type": "weekly",
-          "startTime": "09:50",
-          "endTime": "11:50",
-          "dayOfWeek": 5
-        },
-        {
-          "name": "化学",
-          "type": "weekly",
-          "startTime": "14:30",
-          "endTime": "15:45",
-          "dayOfWeek": 5
-        },
-        {
-          "name": "生物",
-          "type": "weekly",
-          "startTime": "15:50",
-          "endTime": "17:05",
-          "dayOfWeek": 5
+          "type": "fixed",
+          "data": "2026-06-04",
+          "startTime": "15:00",
+          "endTime": "17:00"
         }
       ]
     }
