@@ -1,167 +1,151 @@
 # Kaoshi - 考试计时器
 
-基于 GitHub + Cloudflare Pages 的静态考试计时网站，支持多种考试类型配置、实时倒计时、进度条显示。
+基于原生 HTML/JS + 现代 CSS（毛玻璃/高斯模糊拟态设计）打造的高颜值静态考试计时网站。支持多种复杂的考试类型配置、实时倒计时、进度条显示，并集成了**全自动的短链跨库同步系统**。非常适合部署在 Cloudflare Pages、GitHub Pages 等静态托管服务上。
 
-## 部署
+---
 
-1. 将代码推送到 GitHub 仓库
-2. 在 Cloudflare Pages 中连接该仓库
-3. 构建命令留空，输出目录设为 `/`
+## ✨ 核心特性
 
-## 使用方式
+- **极致现代 UI**：采用最新的 Glassmorphism（玻璃拟态）设计理念，支持亮色/暗色模式自适应。
+- **动态背景切换**：内置悬浮式精美背景切换器，支持滚轮/触屏滑动切换，智能记忆用户当前会话状态。
+- **可视化控制台**：自带 `/setting` 后台界面，无需手写代码即可视化配置考试类型、科目时间、修改背景与主题，并支持配置**3天智能缓存**。
+- **强大的时间引擎**：支持一次性固定日期考试、每周循环测试、双周/月度自定义循环测试的倒计时。
+- **GitHub 自动化跨库同步**：提供内置工作流，当你在 `img/` 目录下新增背景图时，可自动重命名、发版上传，并**将真实的下载代理链接智能同步至你的短链服务独立仓库中**。
 
-| 访问方式 | 说明 |
+---
+
+## 🚀 部署指南
+
+### 1. 基础部署 (Cloudflare Pages)
+
+1. 将本代码仓库 Fork / Clone 并推送到你的 GitHub。
+2. 登录 Cloudflare Pages，点击创建新项目并连接该仓库。
+3. 构建命令留空，构建输出目录设为 `/`（根目录）。
+4. 部署即可立刻使用！
+
+### 2. 配置高级工作流 (自动同步短链)
+
+本项目内置了能够跨仓库自动更新你的短链服务（如 `zxymiku/shortlink`）的 GitHub Actions。为了使此同步生效，请完成以下配置：
+
+1. 打开 GitHub 右上角头像 -> **Settings** -> **Developer settings** -> **Personal access tokens (classic)**。
+2. 生成一个新 Token，勾选 `repo` 权限。
+3. 回到本项目的 **Settings** -> **Secrets and variables** -> **Actions**。
+4. 点击 **New repository secret**，名称填写 `PAT_TOKEN`，值为刚才复制的 Token。
+5. *现在，每当你向 `img/` 文件夹上传新图片并 push 后，工作流会自动重命名并同步链接至你独立的短链项目中！*
+
+---
+
+## 📖 使用方式与访问说明
+
+| 访问路由 | 功能说明 |
 |---------|------|
-| `site.com` | 加载默认配置（代码中 `DEFAULT_CONFIG_URL`） |
-| `site.com/?config=URL` | 加载指定远程 JSON 配置 |
-| `site.com/setting` | 打开设置页面，配置本地 JSON / 背景 / 主题 |
+| `你的域名/` | 默认加载主页，读取内部配置的远程 `kaoshi.json` |
+| `你的域名/?config=URL` | 强制加载指定的远程 JSON 配置文件 |
+| `你的域名/setting` | 访问**可视化后台控制台**。在这里可以零代码修改考试时间，应用后自动生效 |
 
-配置加载优先级：URL 参数 > localStorage 本地配置 > 默认配置
-
----
-
-## JSON 配置文件说明
-
-### 顶层字段
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `title` | string | 否 | 页面标题，显示在页面顶部和浏览器标签页 |
-| `backgrounds` | string[] | 否 | 背景图片 URL 数组，页面加载时随机选取一张 |
-| `background` | string | 否 | 单张背景图 URL（如果没有 `backgrounds` 则使用此字段） |
-| `backgroundBlur` | number | 否 | 背景图模糊程度（单位 px），`0` 或不填表示不模糊 |
-| `theme` | string | 否 | 默认主题，可选值：`"light"` / `"dark"` |
-| `exams` | array | **是** | 考试列表 |
-
-### exams 数组中的每个考试对象
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `name` | string | **是** | 考试名称，如 "高三模拟考试" |
-| `subjects` | array | **是** | 该考试包含的科目列表 |
-
-### subjects 数组中的每个科目对象
-
-每个科目必须包含 `name`、`type`、`startTime`、`endTime`，其余字段根据 `type` 不同而不同。
-
-#### 通用字段
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `name` | string | **是** | 科目名称，如 "数学"、"英语听力" |
-| `type` | string | **是** | 时间类型，可选值见下方 |
-| `startTime` | string | **是** | 开始时间，格式 `"HH:mm"`（24小时制），如 `"09:00"` |
-| `endTime` | string | **是** | 结束时间，格式 `"HH:mm"`（24小时制），如 `"11:30"` |
-
-#### type = "fixed"（固定日期）
-
-一次性考试，在指定日期的指定时间段进行。
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `date` | string | **是** | 考试日期，格式 `"YYYY-MM-DD"`，如 `"2026-06-07"` |
-
-```json
-{
-  "name": "数学",
-  "type": "fixed",
-  "date": "2026-06-07",
-  "startTime": "09:00",
-  "endTime": "11:30"
-}
-```
-
-#### type = "weekly"（每周循环）
-
-每周固定某天重复的考试/训练。
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `dayOfWeek` | number | **是** | 星期几，`0`=周日, `1`=周一, `2`=周二 ... `6`=周六 |
-| `validFrom` | string | 否 | 生效起始日期 `"YYYY-MM-DD"`，在此日期之前不显示 |
-| `validUntil` | string | 否 | 生效截止日期 `"YYYY-MM-DD"`，在此日期之后不显示 |
-
-```json
-{
-  "name": "听力测试",
-  "type": "weekly",
-  "dayOfWeek": 1,
-  "startTime": "08:00",
-  "endTime": "08:30",
-  "validFrom": "2026-03-01",
-  "validUntil": "2026-06-30"
-}
-```
-
-#### type = "recurring"（自定义循环）
-
-按固定间隔重复的考试。
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `startDate` | string | **是** | 循环起始日期 `"YYYY-MM-DD"` |
-| `endDate` | string | **是** | 循环截止日期 `"YYYY-MM-DD"` |
-| `interval` | string | **是** | 循环间隔，可选值：`"daily"` / `"weekly"` / `"biweekly"` / `"monthly"` |
-| `dayOfWeek` | number | **是** | 星期几（同 weekly） |
-
-```json
-{
-  "name": "实验操作考核",
-  "type": "recurring",
-  "startDate": "2026-03-01",
-  "endDate": "2026-06-01",
-  "interval": "biweekly",
-  "dayOfWeek": 4,
-  "startTime": "14:00",
-  "endTime": "16:00"
-}
-```
+*(提示：您在 `/setting` 中保存的配置优先级最高，此本地缓存有效期为 3 天。过期后系统会自动回滚并拉取最新的远程配置文件。)*
 
 ---
 
-## 完整示例
+## ⚙️ 配置文件 (kaoshi.json) 详解
+
+你可以直接使用项目中自带的 `kaoshi.json` 模板，或在 `/setting` 中通过图形界面配置。
+
+### 顶层结构
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `title` | string | 否 | 页面标题，显示在主页顶部和浏览器标签页 |
+| `backgrounds` | string[] | 否 | 你的短链服务背景图 URL 数组，系统加载时将随机挑选一张 |
+| `backgroundBlur` | number | 否 | 背景图毛玻璃模糊强度（单位 px，推荐 0~6） |
+| `theme` | string | 否 | 默认色彩主题，可选值：`"light"` / `"dark"` / 不填（跟随系统） |
+| `exams` | array | **是** | 核心考试数据列表 |
+
+### exams 数组 (考试大类)
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `name` | string | **是** | 考试或训练大类名称，如 "模拟考试" |
+| `subjects` | array | **是** | 该类目下包含的具体科目列表 |
+
+### subjects 数组 (具体科目规则)
+
+每个科目都包含名称和起止时间。根据 `type` 不同，定义日期的字段也有所不同。通用字段如下：
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `name` | string | **是** | 科目名称，如 "数学" |
+| `type` | string | **是** | 时间规则类型，支持 `"fixed"`(固定), `"weekly"`(每周), `"recurring"`(循环) |
+| `startTime` | string | **是** | 开始时间，严格要求 `"HH:mm"`（24小时制），如 `"09:00"` |
+| `endTime` | string | **是** | 结束时间，严格要求 `"HH:mm"`，如 `"11:30"` |
+
+#### 1. type = "weekly"（每周循环 - 常用）
+
+适用于每周一到周五固定重复的测验/晚自习。
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `dayOfWeek` | number | **是** | 星期几：`0`=周日, `1`=周一 ... `6`=周六 |
+| `validFrom` | string | 否 | 该规则生效起始日期 `"YYYY-MM-DD"` |
+| `validUntil` | string | 否 | 该规则失效日期 `"YYYY-MM-DD"` |
+
+#### 2. type = "fixed"（固定日期一次性）
+
+适用于期中、期末、大考等只发生一次的考试。
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `date` | string | **是** | 考试具体日期，格式 `"YYYY-MM-DD"`，如 `"2026-06-07"` |
+
+#### 3. type = "recurring"（周期性循环）
+
+适用于如“每两周”、“每月”举行一次的周期性测验。
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `startDate` | string | **是** | 循环周期起始日期 |
+| `endDate` | string | **是** | 循环周期截止日期 |
+| `interval` | string | **是** | `"daily"`(每日), `"weekly"`(每周), `"biweekly"`(双周), `"monthly"`(每月) |
+| `dayOfWeek` | number | **是** | 星期几 |
+
+---
+
+## 📝 完整 JSON 配置示例
 
 ```json
 {
-  "title": "2026年期末考试",
+  "title": "高考冲刺倒计时",
   "backgrounds": [
-    "https://example.com/bg1.jpg",
-    "https://example.com/bg2.jpg",
-    "https://example.com/bg3.jpg"
+    "https://shortlink.zxymiku.top/img/01",
+    "https://shortlink.zxymiku.top/img/02",
+    "https://shortlink.zxymiku.top/img/03"
   ],
-  "backgroundBlur": 6,
-  "theme": "dark",
+  "backgroundBlur": 0,
+  "theme": "light",
   "exams": [
     {
-      "name": "期末考试",
+      "name": "高三一模",
       "subjects": [
         {
           "name": "语文",
           "type": "fixed",
-          "date": "2026-06-07",
+          "date": "2026-03-15",
           "startTime": "09:00",
           "endTime": "11:30"
-        },
-        {
-          "name": "数学",
-          "type": "fixed",
-          "date": "2026-06-07",
-          "startTime": "15:00",
-          "endTime": "17:00"
         }
       ]
     },
     {
-      "name": "每周训练",
+      "name": "晚自习测验",
       "subjects": [
         {
-          "name": "英语听力",
+          "name": "数学专练",
           "type": "weekly",
           "dayOfWeek": 1,
-          "startTime": "08:00",
-          "endTime": "08:30",
-          "validFrom": "2026-03-01",
-          "validUntil": "2026-06-30"
+          "startTime": "19:00",
+          "endTime": "21:00",
+          "validFrom": "2026-01-01",
+          "validUntil": "2026-06-01"
         }
       ]
     }
@@ -171,23 +155,4 @@
 
 ---
 
-## interval 可选值说明
-
-| 值 | 含义 |
-|----|------|
-| `"daily"` | 每天 |
-| `"weekly"` | 每周 |
-| `"biweekly"` | 每两周 |
-| `"monthly"` | 每月（约30天） |
-
-## dayOfWeek 值对照
-
-| 值 | 星期 |
-|----|------|
-| 0 | 周日 |
-| 1 | 周一 |
-| 2 | 周二 |
-| 3 | 周三 |
-| 4 | 周四 |
-| 5 | 周五 |
-| 6 | 周六 |
+*Enjoy coding and good luck with your exams!*

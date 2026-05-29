@@ -27,9 +27,9 @@ function initBgPicker(config) {
   let currentIndex = 0;
 
   // Try to find the currently active background to set initial index
-  const savedBg = sessionStorage.getItem(BG_STORAGE_KEY);
-  if (savedBg) {
-    const foundIdx = items.findIndex(item => item.url === savedBg);
+  const activeBg = sessionStorage.getItem(BG_STORAGE_KEY) || sessionStorage.getItem('kaoshi_session_bg');
+  if (activeBg) {
+    const foundIdx = items.findIndex(item => item.url === activeBg);
     if (foundIdx !== -1) {
       currentIndex = foundIdx;
     }

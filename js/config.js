@@ -1,4 +1,4 @@
-const DEFAULT_CONFIG_URL = 'https://git.zxymiku.top/https://raw.githubusercontent.com/zxymiku/kaoshi/refs/heads/main/kaoshi.json';
+const DEFAULT_CONFIG_URL = 'https://shortlink.zxymiku.top/config/kaoshi';
 
 const STORAGE_KEYS = {
   config: 'kaoshi_config',
@@ -55,10 +55,6 @@ async function loadConfig() {
     return null;
   }
 
-  const bgOverride = sessionStorage.getItem(STORAGE_KEYS.background);
-  if (bgOverride) {
-    config.backgrounds = [bgOverride];
-  }
   if (localStorage.getItem(STORAGE_KEYS.background)) {
     localStorage.removeItem(STORAGE_KEYS.background);
   }

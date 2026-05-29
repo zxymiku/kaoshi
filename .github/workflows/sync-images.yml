@@ -19,6 +19,14 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
+      - name: Checkout shortlink repository
+        uses: actions/checkout@v4
+        with:
+          repository: zxymiku/shortlink
+          token: ${{ secrets.PAT_TOKEN }}
+          path: shortlink_repo
+          persist-credentials: true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:

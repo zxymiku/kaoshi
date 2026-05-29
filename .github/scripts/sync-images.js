@@ -200,8 +200,10 @@ async function uploadReleaseAsset(uploadUrl, filePath, fileName) {
   }
 
   const config = loadConfig();
-  const baseUrl = `https://git.zxymiku.top/https://github.com/${owner}/${repo}/releases/download/${RELEASE_TAG}/`;
-  const newUrls = finalNames.map(name => `${baseUrl}${encodeURIComponent(name)}`);
+  const newUrls = finalNames.map(name => {
+    const nameWithoutExt = name.replace(/\.[^/.]+$/, '');
+    return `https://shortlink.zxymiku.top/img/${nameWithoutExt}`;
+  });
 
   const backgroundsChanged =
     !Array.isArray(config.backgrounds) ||
@@ -214,6 +216,42 @@ async function uploadReleaseAsset(uploadUrl, filePath, fileName) {
     console.log('Updated kaoshi.json backgrounds list.');
   } else {
     console.log('kaoshi.json backgrounds already match current image list.');
+  }
+
+  // Sync mappings to the shortlink repository
+  const shortlinkConfigPath = path.join(process.cwd(), 'shortlink_repo', 'config.json');
+  if (fs.existsSync(shortlinkConfigPath)) {
+    const shortlinkConfig = JSON.parse(fs.readFileSync(shortlinkConfigPath, 'utf8'));
+    
+    // Construct the proxy URLs for the GitHub release assets
+    const releaseBaseUrl = `https://git.zxymiku.top/https://github.com/${owner}/${repo}/releases/download/${RELEASE_TAG}/`;
+    
+    const newImgMapping = {};
+    finalNames.forEach(name => {
+      const nameWithoutExt = name.replace(/\.[^/.]+$/, '');
+      newImgMapping[nameWithoutExt] = `${releaseBaseUrl}${encodeURIComponent(name)}`;
+    });
+
+    let mappingChanged = false;
+    if (JSON.stringify(shortlinkConfig.img) !== JSON.stringify(newImgMapping)) {
+      shortlinkConfig.img = newImgMapping;
+      fs.writeFileSync(shortlinkConfigPath, JSON.stringify(shortlinkConfig, null, 2) + '\n', 'utf8');
+      mappingChanged = true;
+    }
+
+    if (mappingChanged) {
+      console.log('Committing updates to shortlink repository.');
+      const shortlinkDir = path.join(process.cwd(), 'shortlink_repo');
+      execSync('git config user.name "github-actions[bot]"', { cwd: shortlinkDir });
+      execSync('git config user.email "github-actions[bot]@users.noreply.github.com"', { cwd: shortlinkDir });
+      execSync('git add config.json', { cwd: shortlinkDir });
+      execSync('git commit -m "chore: auto sync img mapping from kaoshi repo"', { cwd: shortlinkDir });
+      execSync('git push origin HEAD:main', { cwd: shortlinkDir });
+    } else {
+      console.log('No mapping changes needed for shortlink repository.');
+    }
+  } else {
+    console.log('Warning: shortlink_repo/config.json not found. Skipped shortlink sync.');
   }
 
   const gitStatus = execSync('git status --porcelain', { encoding: 'utf8' }).trim();
