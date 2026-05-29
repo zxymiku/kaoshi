@@ -116,9 +116,9 @@
 {
   "title": "高考冲刺倒计时",
   "backgrounds": [
-    "https://shortlink.zxymiku.top/img/01",
-    "https://shortlink.zxymiku.top/img/02",
-    "https://shortlink.zxymiku.top/img/03"
+    "https://s.zxymiku.top/img/01",
+    "https://s.zxymiku.top/img/02",
+    "https://s.zxymiku.top/img/03"
   ],
   "backgroundBlur": 0,
   "theme": "light",

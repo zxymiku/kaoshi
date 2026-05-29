@@ -1,4 +1,4 @@
-const DEFAULT_CONFIG_URL = 'https://shortlink.zxymiku.top/config/kaoshi';
+const DEFAULT_CONFIG_URL = 'https://s.zxymiku.top/config/kaoshi';
 
 const STORAGE_KEYS = {
   config: 'kaoshi_config',

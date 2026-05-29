@@ -202,7 +202,7 @@ async function uploadReleaseAsset(uploadUrl, filePath, fileName) {
   const config = loadConfig();
   const newUrls = finalNames.map(name => {
     const nameWithoutExt = name.replace(/\.[^/.]+$/, '');
-    return `https://shortlink.zxymiku.top/img/${nameWithoutExt}`;
+    return `https://s.zxymiku.top/img/${nameWithoutExt}`;
   });
 
   const backgroundsChanged =
