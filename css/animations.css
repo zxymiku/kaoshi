@@ -1,0 +1,43 @@
+/* ===== Entrance Animations ===== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Stagger system: each element sets --stagger-index via JS */
+.animate-stagger {
+  opacity: 0;
+  animation: fadeInUp 0.45s ease-out both;
+  animation-delay: calc(var(--stagger-index, 0) * 30ms + 100ms);
+}
+
+/* Page-level entrance: nothing animates until .loaded is on body */
+body:not(.loaded) .page-header,
+body:not(.loaded) .exam-card {
+  opacity: 0;
+}
+
+body.loaded .page-header {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+body.loaded .exam-card {
+  animation: fadeInUp 0.5s ease-out 0.1s both;
+}

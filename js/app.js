@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (!initialConfig) {
     showError('无法加载配置', '请检查网络连接或通过 /setting 页面配置本地 JSON');
+    document.body.classList.add('loaded');
     return;
   }
 
@@ -18,11 +19,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (!initialConfig.exams || initialConfig.exams.length === 0) {
     showError('暂无考试信息', '请在 JSON 配置中添加考试数据');
+    document.body.classList.add('loaded');
     return;
   }
 
   renderExams(initialConfig.exams, initialConfig);
   initBgPicker(initialConfig);
+
+  // Trigger entrance animations
+  requestAnimationFrame(() => {
+    document.body.classList.add('loaded');
+  });
+
   setInterval(() => updateTimers(), 1000);
   updateTimers();
 

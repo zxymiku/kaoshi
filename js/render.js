@@ -1,6 +1,13 @@
 let lastBackgroundGapKey = null;
 let lastBackgroundGapUrl = null;
 
+// SVG icons for badge states
+const BADGE_ICONS = {
+  waiting: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  active: '<span class="badge-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;"></span>',
+  done: '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+};
+
 function renderExams(exams, config) {
   const container = document.getElementById('exam-container');
   container.innerHTML = '';
@@ -36,6 +43,9 @@ function renderExams(exams, config) {
 
   subjects.forEach((item, idx) => {
     const row = createSubjectRowFromOccurrence(item.name, item.start, item.end, idx === 0);
+    // Stagger animation
+    row.classList.add('animate-stagger');
+    row.style.setProperty('--stagger-index', idx);
     list.appendChild(row);
   });
 
@@ -140,6 +150,7 @@ function createSubjectRowFromOccurrence(name, startMs, endMs, isPrimary) {
     <div class="subject-countdown"></div>
     <div class="subject-status"><span class="badge"></span></div>
     <div class="subject-progress">
+      <span class="progress-percent"></span>
       <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="progress-fill"></div>
       </div>
@@ -160,38 +171,60 @@ function updateTimers() {
     const badgeEl = row.querySelector('.subject-status .badge');
     const fillEl = row.querySelector('.progress-fill');
     const barEl = row.querySelector('.progress-bar');
+    const percentEl = row.querySelector('.progress-percent');
 
     if (now < start) {
       const diff = start - now;
       countdownEl.innerHTML = `<span class="countdown-label">距开始</span>${formatCountdown(diff)}`;
-      badgeEl.textContent = '未开始';
+      badgeEl.innerHTML = BADGE_ICONS.waiting + ' 未开始';
       badgeEl.className = 'badge badge-waiting';
       fillEl.style.width = '0%';
+      fillEl.classList.remove('progress-fill--running');
       barEl.setAttribute('aria-valuenow', '0');
+      if (percentEl) {
+        percentEl.classList.remove('visible');
+        percentEl.textContent = '';
+      }
+      row.classList.remove('subject-ended');
     } else if (now >= start && now <= end) {
       const diff = end - now;
       const progress = ((now - start) / (end - start)) * 100;
       countdownEl.innerHTML = `<span class="countdown-label">距结束</span>${formatCountdown(diff)}`;
-      badgeEl.textContent = '进行中';
+      badgeEl.innerHTML = BADGE_ICONS.active + ' 进行中';
       badgeEl.className = 'badge badge-active';
       fillEl.classList.add('progress-fill--running');
       fillEl.style.width = `${progress.toFixed(1)}%`;
       barEl.setAttribute('aria-valuenow', Math.round(progress).toString());
+      if (percentEl) {
+        percentEl.classList.add('visible');
+        percentEl.textContent = `${progress.toFixed(1)}%`;
+      }
+      row.classList.remove('subject-ended');
     } else if (now > end && now <= end + 60 * 1000) {
       countdownEl.innerHTML = `<span class="countdown-label">已结束</span>--:--:--`;
-      badgeEl.textContent = '已结束';
+      badgeEl.innerHTML = BADGE_ICONS.done + ' 已结束';
       badgeEl.className = 'badge badge-done';
       fillEl.classList.remove('progress-fill--running');
       fillEl.style.width = '100%';
       barEl.setAttribute('aria-valuenow', '100');
+      if (percentEl) {
+        percentEl.classList.remove('visible');
+        percentEl.textContent = '';
+      }
+      row.classList.add('subject-ended');
       row.style.display = '';
     } else {
       countdownEl.innerHTML = `<span class="countdown-label">已结束</span>--:--:--`;
-      badgeEl.textContent = '已结束';
+      badgeEl.innerHTML = BADGE_ICONS.done + ' 已结束';
       badgeEl.className = 'badge badge-done';
       fillEl.classList.remove('progress-fill--running');
       fillEl.style.width = '100%';
       barEl.setAttribute('aria-valuenow', '100');
+      if (percentEl) {
+        percentEl.classList.remove('visible');
+        percentEl.textContent = '';
+      }
+      row.classList.add('subject-ended');
       row.style.display = 'none'; // 隐藏已结束超过1分钟的考试信息
     }
   });
